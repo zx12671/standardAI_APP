@@ -1,5 +1,5 @@
 import uvicorn, sys, time, os
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException
 import logging
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from app.models import predictModel
@@ -25,13 +25,16 @@ async def get_answer(data: Request):
     A `dict` containing the original question ('orig_q'), the most similar
     question in the context ('best_q') and the associated answer ('best_a').
   """
-    t1 = time.time()
-    data = await data.json()
-    text_input = data["questions"]
-    response = predictModel.prediction_model(text_input)
-    logging.info('result：{}'.format(response))
-    t2 = time.time()
-    print('耗时', t2-t1)
+    try:
+        t1 = time.time()
+        data = await data.json()
+        text_input = data["questions"]
+        response = predictModel.prediction_model(text_input)
+        logging.info('result：{}'.format(response))
+        t2 = time.time()
+        print('耗时', t2-t1)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     return response
 
 # initialises the QA model and starts the uvicorn app
