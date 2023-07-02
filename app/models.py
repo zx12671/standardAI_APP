@@ -1,3 +1,5 @@
+import time
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -109,8 +111,9 @@ class PredictModel(object):
 
 predictModel = PredictModel()
 
-
 if __name__ == "__main__":
     config = Config(data_path='./data/processed')
-    preModel = PredictModel()
-    preModel.prediction_model("的营养作用")
+    start = time.time()
+    for i in range(10):
+        predictModel.prediction_model("的营养作用")
+    print(time.time()-start)
