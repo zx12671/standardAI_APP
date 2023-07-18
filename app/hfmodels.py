@@ -19,5 +19,11 @@ class PredictModel(object):
 predictModel = PredictModel()
 
 if __name__ == "__main__":
-    print(predictModel.prediction_model("能不能吃","可以吃"))
+    import time
+    start = time.time()
+    for i in range(100):
+        predictModel.prediction_model("以上对于我的显存依旧不够，大家有比我更好的条件的可以试试以上代码", \
+                                      "适当地增加batch size（1,2,4,8,16,32...）以及图片尺寸大小(512*512...)  \
+                                            经过各种资料调研，只为降低显存占用，")
+    print(time.time() - start)
 
